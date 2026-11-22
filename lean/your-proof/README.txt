@@ -5,6 +5,7 @@ Files (each stands alone)
   YourProof.lean             the main proof, Sure Thing, section 5.1, section 5.3, the models
   Displays.lean              the paper's other numbered displays, and numbers given in the text
   OneBoxing.lean             the skeleton of section 4.1
+  Cases.lean                 the cases of the paper as finite models, with their values
   YourProof_any_field.lean   YourProof.lean with values in any ordered field
   Displays_any_field.lean    Displays.lean with values in any ordered field
 
@@ -27,8 +28,8 @@ What is checked
     measure has that together with 1/3 in each cell of R.
 
 What the files assume, said plainly
-  - Measures are finitely additive, on an algebra of events. In YourProof.lean and Displays.lean
-    they take rational values. The two files with any_field in the name state the same theorems
+  - Measures are finitely additive, on an algebra of events. In YourProof.lean, Displays.lean
+    and Cases.lean they take rational values. The two files with any_field in the name state the same theorems
     with values in any ordered field, the real numbers included. There the finite models stay
     over the rationals, and four statements are left out: three about limits (an ordered field
     need not be Archimedean) and one footnote's arithmetic with fixed numbers.
@@ -46,6 +47,7 @@ How to run it
        lean YourProof.lean
        lean Displays.lean
        lean OneBoxing.lean
+       lean Cases.lean
        lean YourProof_any_field.lean
        lean Displays_any_field.lean
   Each run should end without any error or warning. It prints, for the results named at the end
@@ -119,3 +121,36 @@ Section 4.1 (OneBoxing.lean)
   What is not stated, because it is not a calculation: that anyone who gives a reason to
   one-box follows a rule that takes the arrangement into account, and that the arranger can act
   on any rule whatever, a coin included. These are argued in the paper, section 4.1.
+
+The cases (Cases.lean)
+  Where the paper describes a case with chances, the case is built as a finite model, a list of
+  points with weights, and the paper's values are derived on it. Each theorem quotes the
+  sentence it states and names every choice made in stating it.
+  - Sections 1 and 2 on the model of Appendix B, and (B2) as sets.
+  - Section 3: the two guesses; Jack and Jill, with your measure in each cell equal to the
+    recording's conditional for every event of the experiment; Gilad's room and box, at the
+    even urn and at any urn.
+  - Section 4: the worth of the ticket to each side at any price, and EDT's price per run.
+  - Section 5: the peanut butter (an event independent of the ratio splits E into two cells
+    with the same ratio); the dice; Amina's recording at 0.9; (J) at u = 0; two items taken in
+    opposite orders, where (J) can give two values and conditioning gives one; the noisy signal
+    and the reliable device; the sum for heads in Amina's case, and its two values at u = 1.
+  - Section 6.1: the gas stations with every urn as a parameter: the owner who moves the where
+    urn, the altruist, both urns his and the eighth of all the customers, the whether urn, and
+    the second before you pull in.
+  - Section 7: Sleeping Beauty on Sunday at any urn; the measure (15) on the six points; the
+    measure with the four quarters; double halfing; outsiders in the reference class; the
+    Doomsday factor and its limit; the bets of section 7.4; the Monday clock-time prior.
+  - Section 8: the pairs of runs at any bias; which pair is the coin; a rule's cell
+    probabilities at an uneven urn; the Wednesday case at every urn, and the 3/7 that a
+    self-sampling rule gives there; the arithmetic of the ur-prior rules; the reference-class
+    case; the lemma's cells at every urn.
+  - Section 9: tag-swapped driving (1/4, 1/8, the prize at 1/3 given either sign); Monday balls
+    only and the driver's coin, 1/(1+p); the payoffs at the intersection and of a coin chosen in
+    advance, for the paper's payoffs and for any payoffs; the division that gives the first
+    intersection (2-p)/2; the urn on the clock-times; the planner's two events.
+  - Section 10.1: the train at even odds and at any price of the third ticket, and its cell
+    values as the lemma's ratios.
+  Not stated: two footnotes that appeal to the law of large numbers, a sum over infinitely many
+  cells (the measures here are finitely additive), and sentences that are arguments and not
+  calculations.
