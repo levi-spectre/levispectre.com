@@ -1,0 +1,15 @@
+'OneBoxing.two_is_a_thousand_more' does not depend on any axioms
+'OneBoxing.acting_against_gets_more' does not depend on any axioms
+'OneBoxing.reconsider_is_the_other' does not depend on any axioms
+'OneBoxing.no_recommendation_it_can_keep' does not depend on any axioms
+'OneBoxing.two_boxes_however_arranged' does not depend on any axioms
+'OneBoxing.only_two_boxing_is_kept' does not depend on any axioms
+'OneBoxing.liar' does not depend on any axioms
+'OneBoxing.liar_pair' does not depend on any axioms
+'OneBoxing.gideon' does not depend on any axioms
+'OneBoxing.iterations' does not depend on any axioms
+'OneBoxing.iterations_any_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OneBoxing.later_needs_more' depends on axioms: [propext, Quot.sound]
+'OneBoxing.never_settles' does not depend on any axioms
+'OneBoxing.every_chance_is_a_loss' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OneBoxing.the_weight_is_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
