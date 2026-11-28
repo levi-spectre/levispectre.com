@@ -90,7 +90,8 @@ Numbers given in the text (in Displays.lean)
   - After (19): the difference from 1/3 is exactly 2/(3(3N + 4)), and it is below any positive
     number from some N on.
   - After (21): the calculation with an uneven urn, stated with a measure.
-  - Section 5.1, the footnote with the die: 1/6 + 1/6 = 1/3 and 1/6 + 1/4 = 5/12.
+  - The die of a footnote to section 5.1 in the first draft (the footnote is not in Draft 2):
+    1/6 + 1/6 = 1/3 and 1/6 + 1/4 = 5/12.
   - Section 5.3, the footnote: 0.9 if you are sure of what she said, 0.74 if you are 0.8 sure,
     and, with the same doubt at every level, values that go down toward 1/2: above 1/2 at every
     level, and below 1/2 + e from some level on, for every positive e.
@@ -112,10 +113,15 @@ Section 4.1 (OneBoxing.lean)
     whatever the box holds, it gives two boxes, so it keeps its recommendation.
   - Gideon's paradox: if the prize is won exactly by an irrational choice, and a choice that
     wins is thereby not irrational, the prize is not won.
-  - The mixture of the two rules: with the weight on the one-boxing rule halved again and
-    again, the act settles after one halving at two thousand, two at four thousand, ten at a
-    million (for any weight to start from above 0.512 and at most 1), and for every number of
-    halvings there is a prize at which it has not settled.
+  - The mixture of the two rules (updated 26 Nov 2026 for Draft 2 of the paper): whatever the
+    weight on the one-boxing rule, the mixture says two boxes exactly when the weight times the
+    prize is at most the thousand, that is, when the weight is at most a thousand over the
+    prize. With the full weight kept, the recommendation is never the one it was a step before.
+    With the weight halved again and again, as the example, the act settles after one halving
+    at two thousand, two at four thousand, ten at a million (for any weight to start from above
+    0.512 and at most 1); at every prize it settles and stays settled; for every number of
+    halvings there is a prize at which it has not settled, and a prize at which it settles only
+    later, so the weight at which it settles goes to 0.
   - With the opaque box empty, every chance of taking one box is a loss, and the one chance
     that loses nothing is 0.
   What is not stated, because it is not a calculation: that anyone who gives a reason to

@@ -7,9 +7,16 @@
 'OneBoxing.liar' does not depend on any axioms
 'OneBoxing.liar_pair' does not depend on any axioms
 'OneBoxing.gideon' does not depend on any axioms
+'OneBoxing.full_weight_says_one_box' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OneBoxing.full_weight_never_settles' does not depend on any axioms
+'OneBoxing.settles_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OneBoxing.at_most_a_thousand_over_the_prize' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OneBoxing.iterations' does not depend on any axioms
 'OneBoxing.iterations_any_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OneBoxing.later_needs_more' depends on axioms: [propext, Quot.sound]
+'OneBoxing.halving_settles' depends on axioms: [propext, Quot.sound]
+'OneBoxing.stays_settled' depends on axioms: [propext, Quot.sound]
 'OneBoxing.never_settles' does not depend on any axioms
+'OneBoxing.weight_goes_to_zero' depends on axioms: [propext, Quot.sound]
 'OneBoxing.every_chance_is_a_loss' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OneBoxing.the_weight_is_zero' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -11,6 +11,9 @@
     - that the arranger can act on any rule whatever, a coin included ("So he knows the coin").
       The case is described that way; the theorems below take the description as given.
 
+  Updated 26 Nov 2026 for Draft 2 of the paper: the paragraph on the mixture of the two rules
+  (why the weight comes down, halving as an example, where it settles, the weight going to 0).
+
   Checked with Lean 4.36.0, using nothing beyond Lean's own library:  lean OneBoxing.lean
   A run with no error means every theorem below is accepted. The lines printed at the end name
   the axioms the results rest on.
@@ -123,10 +126,57 @@ theorem gideon (wins irrational : Prop) (rule : wins ↔ irrational) (hence : wi
   ⟨fun w => hence w (rule.mp w), fun i => hence (rule.mpr i) i⟩
 
 /-! ### The mixture of the two rules: "you take one box as long as w times the prize is above
-    the thousand. Now halve the weight ..." -/
+    the thousand. But a recommendation of one box is what the arranger has arranged against, as
+    above, so the mixture cannot keep it, and the weight on the one-boxing rule has to come down.
+    Halving is one way to bring it down, taken here as an example." -/
 
-/-- After `k` halvings of a weight that starts at 1, you still take one box iff the prize is
-    above a thousand times 2 to the k (that is, `prize / 2^k > 1000`). -/
+/-- With a weight `w` on the one-boxing rule, the mixture says one box iff `w` times the prize is
+    above the thousand. -/
+def mixtureOneBox (w prize : Rat) : Prop := w * prize > 1000
+
+/-- "With the full weight kept on the one-boxing rule ... at any prize above the thousand": at
+    weight 1 the mixture says one box. -/
+theorem full_weight_says_one_box (prize : Rat) (h : 1000 < prize) : mixtureOneBox 1 prize := by
+  unfold mixtureOneBox; grind
+
+/-- "... it never settles ...: each act recommends the other, as above. That is what it is to act
+    in accordance with the liar." Reconsidered any number of times, the recommendation is never
+    the one it was a step before. -/
+theorem full_weight_never_settles (n : Nat) (r : Act) :
+    Nat.repeat reconsider (n + 1) r ≠ Nat.repeat reconsider n r :=
+  no_recommendation_it_can_keep (Nat.repeat reconsider n r)
+
+/-- "... it settles on two boxes, with the weight on the one-boxing rule at most a thousand over
+    the prize, however the weight is brought down": whatever the weight, the mixture says two
+    boxes exactly when the weight times the prize is at most the thousand. -/
+theorem settles_iff (w prize : Rat) : ¬ mixtureOneBox w prize ↔ w * prize ≤ 1000 := by
+  unfold mixtureOneBox; constructor <;> intro h <;> grind
+
+/-- The same bound written as in the paper: for a positive prize, the weight times the prize is
+    at most the thousand exactly when the weight is at most a thousand over the prize. -/
+theorem at_most_a_thousand_over_the_prize (w prize : Rat) (hp : 0 < prize) :
+    w * prize ≤ 1000 ↔ w ≤ 1000 / prize := by
+  have hne : prize ≠ 0 := Rat.ne_of_gt hp
+  have hinv : prize * prize⁻¹ = 1 := Rat.mul_inv_cancel prize hne
+  have hpos : 0 < prize⁻¹ := Rat.inv_pos.mpr hp
+  rw [Rat.div_def]
+  constructor
+  · intro h
+    have h1 : w * prize * prize⁻¹ ≤ 1000 * prize⁻¹ :=
+      Rat.mul_le_mul_of_nonneg_right h (Rat.le_of_lt hpos)
+    have h2 : w * prize * prize⁻¹ = w := by rw [Rat.mul_assoc, hinv, Rat.mul_one]
+    rw [h2] at h1
+    exact h1
+  · intro h
+    have h1 : w * prize ≤ 1000 * prize⁻¹ * prize :=
+      Rat.mul_le_mul_of_nonneg_right h (Rat.le_of_lt hp)
+    have h2 : (1000 : Rat) * prize⁻¹ * prize = 1000 := by
+      rw [Rat.mul_assoc, Rat.mul_comm prize⁻¹ prize, hinv, Rat.mul_one]
+    rw [h2] at h1
+    exact h1
+
+/-- Halving as the example. After `k` halvings of a weight that starts at 1, you still take one
+    box iff the prize is above a thousand times 2 to the k (that is, `prize / 2^k > 1000`). -/
 def stillOneBox (prize k : Nat) : Prop := prize > 1000 * 2 ^ k
 
 instance (prize k : Nat) : Decidable (stillOneBox prize k) := by unfold stillOneBox; infer_instance
@@ -157,10 +207,35 @@ theorem later_needs_more (prize k : Nat) : stillOneBox prize (k + 1) → stillOn
     rw [Nat.pow_succ]; omega
   omega
 
-/-- "With no bound on the prize it never settles": for every number of halvings there is a prize
-    at which you would still take one box. -/
+/-- "With the iterated mixture, at any given prize it settles on two boxes": at every prize some
+    number of halvings has two boxes. -/
+theorem halving_settles (prize : Nat) : ∃ k : Nat, ¬ stillOneBox prize k := by
+  refine ⟨prize, ?_⟩
+  unfold stillOneBox
+  have h : prize < 2 ^ prize := Nat.lt_two_pow_self
+  omega
+
+/-- Once it has settled on two boxes, further halvings keep two boxes. -/
+theorem stays_settled (prize k : Nat) : ¬ stillOneBox prize k → ¬ stillOneBox prize (k + 1) :=
+  fun h h' => h (later_needs_more prize k h')
+
+/-- "With no bound on the prize there is no last step": for every number of halvings there is a
+    prize at which you would still take one box. -/
 theorem never_settles : ∀ k : Nat, ∃ prize : Nat, stillOneBox prize k :=
   fun k => ⟨1000 * 2 ^ k + 1, Nat.lt_succ_self _⟩
+
+/-- "... but it tends to two-boxing the whole way: the weight on the one-boxing rule goes to 0":
+    for every `k` there is a prize at which every halving with two boxes comes after `k`, so the
+    weight at which it settles, 1 over 2 to that number, is below 1 over 2 to the `k`. -/
+theorem weight_goes_to_zero : ∀ k : Nat, ∃ prize : Nat, ∀ j : Nat, ¬ stillOneBox prize j → k < j := by
+  intro k
+  refine ⟨1000 * 2 ^ k + 1, ?_⟩
+  intro j hj
+  unfold stillOneBox at hj
+  rcases Nat.lt_or_ge k j with h | h
+  · exact h
+  · have : 2 ^ j ≤ 2 ^ k := Nat.pow_le_pow_right (by decide) h
+    omega
 
 /-! ### "A coin tossed in your head": the predictor puts nothing in the opaque box -/
 
@@ -189,9 +264,16 @@ end OneBoxing
 #print axioms OneBoxing.liar
 #print axioms OneBoxing.liar_pair
 #print axioms OneBoxing.gideon
+#print axioms OneBoxing.full_weight_says_one_box
+#print axioms OneBoxing.full_weight_never_settles
+#print axioms OneBoxing.settles_iff
+#print axioms OneBoxing.at_most_a_thousand_over_the_prize
 #print axioms OneBoxing.iterations
 #print axioms OneBoxing.iterations_any_weight
 #print axioms OneBoxing.later_needs_more
+#print axioms OneBoxing.halving_settles
+#print axioms OneBoxing.stays_settled
 #print axioms OneBoxing.never_settles
+#print axioms OneBoxing.weight_goes_to_zero
 #print axioms OneBoxing.every_chance_is_a_loss
 #print axioms OneBoxing.the_weight_is_zero

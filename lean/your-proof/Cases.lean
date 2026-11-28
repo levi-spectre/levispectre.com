@@ -592,7 +592,7 @@ theorem gilad_monday_only (σ : Rat) (hσ0 : 0 < σ) (hσ1 : σ < 1) :
 
 end Gilad
 
-/-! ## Section 3: a quick check from the outside (on the Appendix B model) -/
+/-! ## Section 3: some checks, inside and out (on the Appendix B model) -/
 
 section Outside
 
